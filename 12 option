@@ -1,0 +1,214 @@
+#include <iostream>
+#include <iomanip>
+#include <windows.h>
+#include <fstream>
+using namespace std;
+class Transport {
+	string fileName;
+	ofstream fout;
+public:
+	virtual string Type() = 0;
+	virtual string Number() = 0;
+	virtual string Driver() = 0;
+	void FileName() {
+		cout << "Введите имя (путь) необходимого файла: ";
+		cin >> fileName;
+	}
+	void InsertIntoFile(string s1, string s2, string s3) { 
+		cout << "Нажмите 1, если хотите ввести запрашиваемые данные в файл.\n\tВвод: ";
+		int Kod; 
+		cin >> Kod;
+		if (Kod != 1)
+			cout << "Отмена ввода данных." << endl;
+		else
+		{
+				fout.open(fileName, ios::app);
+				if (fout.is_open()){
+					fout << s1 << endl;
+					fout << s2 << endl;
+					fout << s3 << endl;
+					cout << "Данные успешно введены в файл." << endl;
+				}
+				else cout << "Ошибка ввода даных." << endl;
+				fout.close();
+		}
+	}
+};
+class Car : public Transport {
+	string s1, s2, s3;
+public:
+	string Type() override {
+		cout << "Легковой автомобиль." << endl;
+		return s1;
+	}
+	string Number() override {
+		cout << "4 пассажирских места." << endl;
+		return s2;
+	}
+	string Driver() override {
+		cout << "Ален." << endl;
+		return s3;
+	}
+	Car(string s)
+	{
+		this->s1 = s;
+	}
+	Car(const Car& obg) {
+		s1 = obg.s1;
+	}
+	Car()
+	{
+		s2 = "4 пассажирских места.";
+		s3 = "Ален.";
+	}
+};
+class Taxi : public Transport {
+	string s1, s2, s3;
+public:
+	string Type() override {
+		cout << "Такси." << endl;
+		return s1;
+	}
+	string Number() override {
+		cout << "4 пассажирских места." << endl;
+		return s2;
+	}
+	string Driver() override {
+		cout << "Теа." << endl;
+		return s3;
+	}
+	Taxi()
+	{
+		s1 = "Такси.";
+		s2 = "4 пассажирских места.";
+		s3 = "Теа.";
+	}
+};
+class Truck : public Transport {
+	string s1, s2, s3;
+public:
+	string Type() override {
+		cout << "Грузовой автомобиль." << endl;
+		return s1;
+	}
+	string Number() override {
+		cout << "1 пассажирское место." << endl;
+		return s2;
+	}
+	string Driver() override {
+		cout << "Майкл." << endl;
+		return s3;
+	}
+	Truck()
+	{
+		s1 = "Грузовой автомобиль.";
+		s2 = "1 пассажирское место.";
+		s3 = "Майкл.";
+	}
+};
+class Bus : public Transport {
+	string s1, s2, s3;
+public:
+	string Type() override {
+		cout << "Автобус." << endl;
+		return s1;
+	}
+	string Number() override {
+		cout << "45 пассажирских мест." << endl;
+		return s2;
+	}
+	string Driver() override {
+		cout << "Сара" << endl;
+		return s3;
+	}
+	Bus()
+	{
+		s1 = "Автобус.";
+		s2 = "45 пассажирских мест.";
+		s3 = "Сара.";
+	}
+};
+class Minibus : public Transport {
+	string s1, s2, s3;
+public:
+	string Type() override {
+		cout << "Микроавтобус." << endl;
+		return s1;
+	}
+	string Number() override {
+		cout << "18 пассажирских мест." << endl;
+		return s2;
+	}
+	string Driver() override {
+		cout << "Шелдон" << endl;
+		return s3;
+	}
+	Minibus()
+	{
+		s1 = "Микроавтобус.";
+		s2 = "18 пассажирских мест.";
+		s3 = "Шелдон.";
+	}
+};
+int main() {
+	SetConsoleCP(1251); 
+	SetConsoleOutputCP(1251);
+	int kod;
+	string s1, s2, s3;
+	Transport* ptrTransport[6]; // массив указателей на абстрактный базовый класс 
+	Car car1("Легковой автомобиль.");
+	Car car2;
+	Taxi taxi;
+	Truck truck;
+	Bus bus;
+	Minibus minibus;
+	ptrTransport[0] = &car1;
+	ptrTransport[1] = &car2;
+	ptrTransport[2] = &taxi;
+	ptrTransport[3] = &truck;
+	ptrTransport[4] = &bus;
+	ptrTransport[5] = &minibus;
+	car1.FileName();
+	cout << "Выберите вид транспорта:" << endl;
+	while (true)
+	{
+		cout << "\tЛегковой автомобиль - 1\n\tТакси - 2\n\tГрузовой автомобиль - 3\n\tАвтобус - 4\n\tМикроавтобус - 5\n\tВыйти - 0 : " << endl;
+		cin >> kod;
+		switch (kod)
+		{
+		case 1:
+			s1 = ptrTransport[0]->Type();
+			s2 = ptrTransport[1]->Number();
+			s3 = ptrTransport[1]->Driver();
+			ptrTransport[0]->InsertIntoFile(s1, s2, s3);
+			break;
+		case 2:
+			s1 = ptrTransport[2]->Type();
+			s2 = ptrTransport[2]->Number();
+			s3 = ptrTransport[2]->Driver();
+			ptrTransport[0]->InsertIntoFile(s1, s2, s3);
+			break;
+		case 3:
+			s1 = ptrTransport[3]->Type();
+			s2 = ptrTransport[3]->Number();
+			s3 = ptrTransport[3]->Driver();
+			ptrTransport[0]->InsertIntoFile(s1, s2, s3);
+			break;
+		case 4:
+			s1 = ptrTransport[4]->Type();
+			s2 = ptrTransport[4]->Number();
+			s3 = ptrTransport[4]->Driver();
+			ptrTransport[0]->InsertIntoFile(s1, s2, s3);
+			break;
+		case 5:
+			s1 = ptrTransport[5]->Type();
+			s2 = ptrTransport[5]->Number();
+			s3 = ptrTransport[5]->Driver();
+			ptrTransport[0]->InsertIntoFile(s1, s2, s3);
+			break;
+		case 0: default:
+			return 0;
+		}
+	}
+}
+

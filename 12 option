@@ -22,8 +22,13 @@ public:
 	}
 	void InsertIntoFile(string s1, string s2, string s3) { 
 		cout << "Нажмите 1, если хотите ввести запрашиваемые данные в файл.\n\tВвод: ";
-		int Kod; 
-		cin >> Kod;
+		int Kod;
+		while (!(cin >> Kod))
+		{
+			cin.clear();
+			cin.ignore(cin.rdbuf()->in_avail());
+			cout << "Ошибка ввода. Введите число:" << endl;
+		}
 		if (Kod != 1)
 			cout << "Отмена ввода данных." << endl;
 		else
@@ -179,7 +184,12 @@ int main() {
 	while (true)
 	{
 		cout << "\tЛегковой автомобиль - 1\n\tТакси - 2\n\tГрузовой автомобиль - 3\n\tАвтобус - 4\n\tМикроавтобус - 5\n\tВыйти - 0 : " << endl;
-		cin >> kod;
+		while (!(cin >> kod))
+		{
+			cin.clear();
+			cin.ignore(cin.rdbuf()->in_avail());
+			cout << "Ошибка ввода. Введите число:" << endl;
+		}
 		switch (kod)
 		{
 		case 1:
@@ -217,4 +227,3 @@ int main() {
 		}
 	}
 }
-

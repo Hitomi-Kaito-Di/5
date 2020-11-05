@@ -12,6 +12,8 @@ using namespace std;
 class Transport {
 	string fileName;
 	ofstream fout;
+protected:
+	string cost;
 public:
 	virtual string Type() = 0;
 	virtual string Number() = 0;
@@ -20,7 +22,7 @@ public:
 		cout << "Введите имя (путь) необходимого файла: ";
 		cin >> fileName;
 	}
-	void InsertIntoFile(string s1, string s2, string s3) { 
+	void InsertIntoFile(string s1, string s2, string s3, string s4) { 
 		cout << "Нажмите 1, если хотите ввести запрашиваемые данные в файл.\n\tВвод: ";
 		int Kod;
 		while (!(cin >> Kod))
@@ -38,27 +40,38 @@ public:
 					fout << s1 << endl;
 					fout << s2 << endl;
 					fout << s3 << endl;
+					fout << s4 << endl;
 					cout << "Данные успешно введены в файл." << endl;
 				}
 				else cout << "Ошибка ввода даных." << endl;
 				fout.close();
 		}
 	}
+	virtual string Cost() {
+		cost = "Транспорт не предназначен для перевозки людей.";
+		cout << cost << endl;
+		return cost;
+	}
 };
 class Car : public Transport {
 	string s1, s2, s3;
 public:
 	string Type() override {
-		cout << "Легковой автомобиль." << endl;
+		cout << s1 << endl;
 		return s1;
 	}
 	string Number() override {
-		cout << "4 пассажирских места." << endl;
+		cout << s2 << endl;
 		return s2;
 	}
 	string Driver() override {
-		cout << "Ален." << endl;
+		cout << s3 << endl;
 		return s3;
+	}
+	string Cost() {
+		cost = "Транспорт личного пользования (плата за топливо).";
+		cout << cost << endl;
+		return cost;
 	}
 	Car(string s)
 	{
@@ -77,16 +90,21 @@ class Taxi : public Transport {
 	string s1, s2, s3;
 public:
 	string Type() override {
-		cout << "Такси." << endl;
+		cout << s1 << endl;
 		return s1;
 	}
 	string Number() override {
-		cout << "4 пассажирских места." << endl;
+		cout << s2 << endl;
 		return s2;
 	}
 	string Driver() override {
-		cout << "Теа." << endl;
+		cout << s3 << endl;
 		return s3;
+	}
+	string Cost() {
+		cost = "Цена проезда зависит от тарифа и продолжительности пути.";
+		cout << cost << endl;
+		return cost;
 	}
 	Taxi()
 	{
@@ -99,15 +117,15 @@ class Truck : public Transport {
 	string s1, s2, s3;
 public:
 	string Type() override {
-		cout << "Грузовой автомобиль." << endl;
+		cout << s1 << endl;
 		return s1;
 	}
 	string Number() override {
-		cout << "1 пассажирское место." << endl;
+		cout << s2 << endl;
 		return s2;
 	}
 	string Driver() override {
-		cout << "Майкл." << endl;
+		cout << s3 << endl;
 		return s3;
 	}
 	Truck()
@@ -121,16 +139,21 @@ class Bus : public Transport {
 	string s1, s2, s3;
 public:
 	string Type() override {
-		cout << "Автобус." << endl;
+		cout << s1 << endl;
 		return s1;
 	}
 	string Number() override {
-		cout << "45 пассажирских мест." << endl;
+		cout << s2 << endl;
 		return s2;
 	}
 	string Driver() override {
-		cout << "Сара" << endl;
+		cout << s3 << endl;
 		return s3;
+	}
+	string Cost() {
+		cost = "Цена проезда равняется цене одного талона.";
+		cout << cost << endl;
+		return cost;
 	}
 	Bus()
 	{
@@ -143,16 +166,21 @@ class Minibus : public Transport {
 	string s1, s2, s3;
 public:
 	string Type() override {
-		cout << "Микроавтобус." << endl;
+		cout << s1 << endl;
 		return s1;
 	}
 	string Number() override {
-		cout << "18 пассажирских мест." << endl;
+		cout << s2 << endl;
 		return s2;
 	}
 	string Driver() override {
-		cout << "Шелдон" << endl;
+		cout << s3 << endl;
 		return s3;
+	}
+	string Cost() {
+		cost = "Цена проезда формируется от маршрута.";
+		cout << cost << endl;
+		return cost;
 	}
 	Minibus()
 	{
@@ -165,7 +193,7 @@ int main() {
 	SetConsoleCP(1251); 
 	SetConsoleOutputCP(1251);
 	int kod;
-	string s1, s2, s3;
+	string s1, s2, s3, s4;
 	Transport* ptrTransport[6]; // массив указателей на абстрактный базовый класс 
 	Car car1("Легковой автомобиль.");
 	Car car2;
@@ -196,33 +224,39 @@ int main() {
 			s1 = ptrTransport[0]->Type();
 			s2 = ptrTransport[1]->Number();
 			s3 = ptrTransport[1]->Driver();
-			ptrTransport[0]->InsertIntoFile(s1, s2, s3);
+			s4 = ptrTransport[1]->Cost();
+			ptrTransport[0]->InsertIntoFile(s1, s2, s3, s4);
 			break;
 		case 2:
 			s1 = ptrTransport[2]->Type();
 			s2 = ptrTransport[2]->Number();
 			s3 = ptrTransport[2]->Driver();
-			ptrTransport[0]->InsertIntoFile(s1, s2, s3);
+			s4 = ptrTransport[2]->Cost();
+			ptrTransport[0]->InsertIntoFile(s1, s2, s3, s4);
 			break;
 		case 3:
 			s1 = ptrTransport[3]->Type();
 			s2 = ptrTransport[3]->Number();
 			s3 = ptrTransport[3]->Driver();
-			ptrTransport[0]->InsertIntoFile(s1, s2, s3);
+			s4 = ptrTransport[3]->Cost();
+			ptrTransport[0]->InsertIntoFile(s1, s2, s3, s4);
 			break;
 		case 4:
 			s1 = ptrTransport[4]->Type();
 			s2 = ptrTransport[4]->Number();
 			s3 = ptrTransport[4]->Driver();
-			ptrTransport[0]->InsertIntoFile(s1, s2, s3);
+			s4 = ptrTransport[4]->Cost();
+			ptrTransport[0]->InsertIntoFile(s1, s2, s3, s4);
 			break;
 		case 5:
 			s1 = ptrTransport[5]->Type();
 			s2 = ptrTransport[5]->Number();
 			s3 = ptrTransport[5]->Driver();
-			ptrTransport[0]->InsertIntoFile(s1, s2, s3);
+			s4 = ptrTransport[5]->Cost();
+			ptrTransport[0]->InsertIntoFile(s1, s2, s3, s4);
 			break;
 		case 0: default:
+			cout << "Завершение работы программы." << endl;
 			return 0;
 		}
 	}
